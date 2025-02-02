@@ -63,6 +63,12 @@ function startGame() {
     });
 }
 
+function replayCurrentAudio() {
+    if (currentQuestions[currentQuestion]) {
+        playAudio(currentQuestions[currentQuestion].audio);
+    }
+}
+
 function loadQuestion() {
     const question = currentQuestions[currentQuestion];
     document.getElementById('option1').src = question.img1;
@@ -160,6 +166,9 @@ function restartGame() {
     const questionContainer = document.getElementById('question-container');
     questionContainer.innerHTML = `
         <h2>VALITSE OIKEA KUVA:</h2>
+        <button id="replay-sound" class="replay-button">
+            <img src="kaiutin.png" alt="Toista ääni">
+        </button>
         <div class="options">
             <img id="option1" class="option" onclick="selectOption(1)">
             <img id="option2" class="option" onclick="selectOption(2)">
@@ -169,6 +178,8 @@ function restartGame() {
             <img id="next-arrow" src="nuoli.png" onclick="nextQuestion()">
         </div>
     `;
+    
+    document.getElementById('replay-sound').addEventListener('click', replayCurrentAudio);
     
     document.getElementById('stars-container').innerHTML = '';
     document.getElementById('stars-container').style.display = 'block';
@@ -198,6 +209,8 @@ function playAudio(src, callback) {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('start-button').addEventListener('click', startGame);
+
+    document.getElementById('replay-sound').addEventListener('click', replayCurrentAudio);  // Lisää tämä rivi
 
     document.addEventListener('keydown', (event) => {
         if (event.key === 'ArrowRight' && document.getElementById('next-arrow').style.display !== 'none') {
